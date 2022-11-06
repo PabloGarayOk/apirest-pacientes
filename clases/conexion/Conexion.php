@@ -98,11 +98,11 @@
         // Non Query
         public function nonQuery($strsql){
             $results = $this->conexion_db->query($strsql);
-            return $results = $this->conexion_db->affected_rows;
+            return $this->conexion_db->affected_rows;
         } // End nonQuery
 
-        // Query filas afectadas
-        public function queryId($strsql){
+        // Query Non Query Id
+        public function nonQueryId($strsql){
             $results = $this->conexion_db->query($strsql);
             $filas = $this->conexion_db->affected_rows;
             if($filas > 0){
@@ -110,7 +110,7 @@
             }else{
                 return $filas . " no insertamos nada.";
             }
-        }
+        }// End nonQueryId
 
         // https://youtu.be/qGEWyjVWVj8?t=499
 
