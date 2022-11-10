@@ -36,7 +36,7 @@
                 $this->port = $value['port'];
                 $this->charset = $value['charset'];
             }
-            
+            /*
             try {
                 // Con un array en config.php
                 // $this->conexion_db = new PDO("mysql:host={$db['host']};dbname={$db['database']}", $db['username'], $db['password']);
@@ -50,14 +50,14 @@
                 echo "la l&iacute;nea de error es: " . $e->getLine();
             }
             return $this->conexion_db;
+            */
             
-            /*
-            $this->conexion = new mysqli($this->server, $this->user, $this->password, $this->db, $this->port);
-            if($this->conexion->connect_errno){
+            $this->conexion_db = new mysqli($this->server, $this->user, $this->password, $this->database, $this->port);
+            if($this->conexion_db->connect_errno){
                 echo "Error en la conexion";
                 die();
             }
-            */
+            
         }
 
         private function datosConexion(){
@@ -75,7 +75,7 @@
             return $array;
         }
 
-        /*
+        
         // Obtener Datos mysqli
         public function obtenerDatos($strsql){
             $results = $this->conexion_db->query($strsql);
@@ -85,8 +85,8 @@
             }
             return $this->convertirUTF8($resultArray);
         }// End obtenerDatos
-        */
-
+        
+        /*
         // Obtener Datos PDO
         public function obtenerDatos($strsql){
             $results = $this->conexion_db->query($strsql);
@@ -94,14 +94,14 @@
             $resulset=$results->fetchAll(PDO::FETCH_ASSOC);
             return $this->convertirUTF8($resulset);
         } // End obtenerDatos
-
+        */
         // Non Query
         public function nonQuery($strsql){
             $results = $this->conexion_db->query($strsql);
             return $this->conexion_db->affected_rows;
         } // End nonQuery
 
-        // Query Non Query Id
+        // Query Non Query Id para el metodo Insert
         public function nonQueryId($strsql){
             $results = $this->conexion_db->query($strsql);
             $filas = $this->conexion_db->affected_rows;
