@@ -1,12 +1,12 @@
 Options All -Indexes
 RewriteEngine On
 
-# Estas lineas son para quitar la extension .php
+# Estas lineas son para que no sea necesario poner la extension .php
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)$ $1.php
 
-# Estas lineas son para quitar la extension .html
+# Estas lineas son para que no sea necesario poner la extension .html
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html
@@ -17,7 +17,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 # La primera forma es como lo tenia yo antes:
- RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 
 # Esta forma es como la tenia él en el repo:
 #RewriteRule ^(.+?)/?$ index.php?url=$1 [L,QSA]

@@ -61,9 +61,9 @@
         }
 
         private function datosConexion(){
-            $direccion = dirname(__FILE__);
-            $jsonData = file_get_contents($direccion . "/config");
-            return json_decode($jsonData, true);
+            $direccion = dirname(__FILE__); // Obtenemos la direccion de este archivo
+            $jsonData = file_get_contents($direccion . "/config"); // Obtenemos y almacenamos los datos de conexion de nuestro archivo
+            return json_decode($jsonData, true); // Convertimos en array asociativo los datos
         }
 
         private function convertirUTF8($array){
