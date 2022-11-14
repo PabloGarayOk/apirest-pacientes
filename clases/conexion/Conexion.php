@@ -112,6 +112,30 @@
             }
         }// End nonQueryId
 
+        // Encriptar md5
+        protected function encriptar($string){
+            return md5($string);
+        } // End Encriptar md5
+        
+        
+        // Verificacion de password
+        protected function verificarPass($string, $datos){
+            $contador = 0;
+            $comprobrar = false;
+            if(password_verify($string, $datos[0]['Password'])){
+                // $contador++;
+                $comprobar = true;
+            }
+            return $comprobar;
+            /*
+            if($contador>=1){
+                return TRUE;
+            }else{
+                return FALSE;
+            }*/
+        } // End function verificarPass
+        
+
         // https://youtu.be/qGEWyjVWVj8?t=499
 
     } // End class Conexion

@@ -1,6 +1,6 @@
 <?php
     class Respuestas{
-        private $response = [
+        public $response = [
                             "status" => "ok",
                             "result" => array()
         ];
@@ -34,6 +34,16 @@
             );
             return $this->response;
         } // End function error_405
+
+        // Function error_500
+        public function error_500($valor = "Error interno del servidor"){
+            $this->response['status'] = "error";
+            $this->response['result'] = array(
+                                        "error_id" => "500",
+                                        "error_msg" => $valor
+            );
+            return $this->response;
+        } // End function error_500
     
     
     } // End class Respuestas
