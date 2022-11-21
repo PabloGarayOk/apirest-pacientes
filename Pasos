@@ -1,0 +1,9 @@
+Api-rest
+
+1- Conexion
+2- Error
+3- Loguin:
+	- Verificacion de usuario
+	- Verificacion de password
+	- Creacion de Token
+	- Respuestas
