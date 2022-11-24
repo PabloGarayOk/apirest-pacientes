@@ -8,3 +8,5 @@ Api-rest
 	- Creacion de Token
 	- Respuestas
 4- Crud
+	- Metodo Get (Read)
+		Cargar los headers y la respuesta "http_response_code()" que se envia con cada metodo.
