@@ -10,3 +10,8 @@ Api-rest
 4- Crud
 	- Metodo Get (Read)
 		Cargar los headers y la respuesta "http_response_code()" que se envia con cada metodo.
+	- Metodo Post (Create)
+	- Metodo Put (Update)
+		*Obtenemos los datos igual que con el post, es lo mismo para todos los metodos que reciben datos a través del body
+		*Es igual que el metodo post pero solo necesitamos recibir el Id, y cambiar la query
+	

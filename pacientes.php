@@ -27,17 +27,15 @@
             http_response_code(200); // Enviamos los codigos de error.
         }
 
-
-
-    }elseif($_SERVER[REQUEST_METHOD] == "POST"){
+    }else if($_SERVER[REQUEST_METHOD] == "POST"){
         // Recibimos los datos que nos envian en el post
         // echo "Hola POST";
         $postBody = file_get_contents("php://input");
         // Enviamos los datos al manejador
         $datosArray = $_pacientes->post($postBody);
         // print_r($resp);
-        
-        header('Content-Type: application/json'); // Le decimos al header que enviamos una respuesta json
+        // Le decimos al header que enviamos una respuesta json
+        header('Content-Type: application/json'); 
         if(isset($datosArray["result"]["error_id"])){ // Si existe alguna respuesta/error de cualquier tipo
             $responseCode = $datosArray["result"]["error_id"]; // Almacenamos la respuesta/error
             http_response_code($responseCode); // Capturamos nuesta respuesta/error
@@ -48,8 +46,27 @@
         // Enviamos la respuesta
         echo json_encode($datosArray); // Usamos echo porque al momento de codificarlo como json lo estamos convirtiendo en un string
 
-    }elseif($_SERVER[REQUEST_METHOD] == "PUT"){
-        echo "Hola PUT";
+    }else if($_SERVER[REQUEST_METHOD] == "PUT"){
+        // echo "Hola PUT";
+        // Recibimos los datos que nos envian en el post
+        // echo "Hola POST";
+        $postBody = file_get_contents("php://input");
+        // Enviamos los datos al manejador
+        $datosArray = $_pacientes->put($postBody);
+        // print_r($postBody);
+        // Le decimos al header que enviamos una respuesta json
+        header('Content-Type: application/json'); 
+        if(isset($datosArray["result"]["error_id"])){ // Si existe alguna respuesta/error de cualquier tipo
+            $responseCode = $datosArray["result"]["error_id"]; // Almacenamos la respuesta/error
+            http_response_code($responseCode); // Capturamos nuesta respuesta/error
+        }else{
+            // Si esta todo Ok la respuesta/error seria un 200
+            http_response_code(200);
+        }
+        // Enviamos la respuesta
+        echo json_encode($datosArray); // Usamos echo porque al momento de codificarlo como json lo estamos convirtiendo en un string
+
+
     }elseif($_SERVER[REQUEST_METHOD] == "DELETE"){
         echo "Hola DELETE";
     }else{
