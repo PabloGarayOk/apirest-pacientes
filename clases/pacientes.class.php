@@ -141,12 +141,56 @@
             // print_r($query);
             $resp = parent::nonQuery($query);
             if($resp >=1 ){
-				// Si se hace el insert devolvemos el id del paciente insertado
+				// Si se hace el insert devolvemos el id del paciente editado
 				return $resp;
 			}else{
 				return 0;
 			}
 
         } // End function editarPaciente
+
+        // Recibimos los datos del PUT
+        public function delete($json){
+            $_respuestas = new Respuestas; // Instanciamos las respuestas
+            $datos = json_decode($json, true); // Convertimos en array el string que nos envian por post
+            // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
+            // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
+            if(!isset($datos['pacienteId'])){
+                return $_respuestas->error_400();
+            }else{
+                // Almacenamos los datos necesarios (obligatorios) enviados
+                $this->pacienteId = $datos['pacienteId'];
+                // Ejecuto la funcion insertar paciente
+                $resp = $this->eliminarPaciente();
+                // Si se inserta el paciente damos la respuesta
+                if($resp){
+                    // Asignamos/igualamos a $respuestaAffect la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
+                    $respuestaAffect = $_respuestas->response;
+                    // En el array que tiene almacenado le agregamos el key "Filas afectadas" con el valor del Id del nuevo usuario registrado
+					$respuestaAffect['result'] = array(
+                                                "PacienteId" => $this->pacienteId,
+                                                "Filas afectadas" => $resp
+                                                );
+                    return $respuestaAffect;
+                }else{
+                    return $_respuestas->error_500();
+                }
+            }
+
+        } // End function put
+
+        // Creamos la funcion Eliminar paciente
+        private function eliminarPaciente(){
+            $query = "DELETE FROM $this->table WHERE Paciente_Id = '$this->pacienteId'";
+            // print_r($query);
+            $resp = parent::nonQuery($query);
+            if($resp >=1 ){
+				// Si se hace el insert devolvemos el id del paciente inseeliminadortado
+				return $resp;
+			}else{
+				return 0;
+			}
+
+        } // End function eliminarPaciente
     
     } // End class Pacientes

@@ -68,7 +68,25 @@
 
 
     }elseif($_SERVER[REQUEST_METHOD] == "DELETE"){
-        echo "Hola DELETE";
+        // echo "Hola DELETE";
+        // Recibimos los datos que nos envian en el post
+        // echo "Hola POST";
+        $postBody = file_get_contents("php://input");
+        // Enviamos los datos al manejador
+        $datosArray = $_pacientes->delete($postBody);
+        // print_r($postBody);
+        // Le decimos al header que enviamos una respuesta json
+        header('Content-Type: application/json'); 
+        if(isset($datosArray["result"]["error_id"])){ // Si existe alguna respuesta/error de cualquier tipo
+            $responseCode = $datosArray["result"]["error_id"]; // Almacenamos la respuesta/error
+            http_response_code($responseCode); // Capturamos nuesta respuesta/error
+        }else{
+            // Si esta todo Ok la respuesta/error seria un 200
+            http_response_code(200);
+        }
+        // Enviamos la respuesta
+        echo json_encode($datosArray); // Usamos echo porque al momento de codificarlo como json lo estamos convirtiendo en un string
+
     }else{
         // En el caso de que envien un Metodo no permitido;
         header('Content-Type: application/json');
