@@ -67,14 +67,26 @@
         echo json_encode($datosArray); // Usamos echo porque al momento de codificarlo como json lo estamos convirtiendo en un string
 
 
-    }elseif($_SERVER[REQUEST_METHOD] == "DELETE"){
+    }elseif($_SERVER[REQUEST_METHOD] == "DELETE"){ // En este metodo rescatamos los datos via headers o via body
         // echo "Hola DELETE";
-        // Recibimos los datos que nos envian en el post
+        // Recibimos los datos que nos envian por el header
+        $headers = getallheaders();
+        // print_r($headers);
+        // Tomamos los datos del header y los almacenamos en el array $datosHeaders
+        if(isset($headers['pacienteId']) && $headers['token']){
+            $datosHeaders = [
+                            "pacienteId" => $headers['pacienteId'],
+                            "token" => $headers['token']
+            ];
+            $postDatos = json_encode($datosHeaders); // Convertimos a json el array para poder pasarselo al metodo delete
+        }else{
+            // Recibimos los datos que nos envian en el post
+            $postDatos = file_get_contents("php://input");
+        }
         // echo "Hola POST";
-        $postBody = file_get_contents("php://input");
         // Enviamos los datos al manejador
-        $datosArray = $_pacientes->delete($postBody);
-        // print_r($postBody);
+        $datosArray = $_pacientes->delete($postDatos);
+        // print_r($postDatos);
         // Le decimos al header que enviamos una respuesta json
         header('Content-Type: application/json'); 
         if(isset($datosArray["result"]["error_id"])){ // Si existe alguna respuesta/error de cualquier tipo

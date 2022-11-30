@@ -16,4 +16,5 @@ Api-rest
 		*Es igual que el metodo post pero solo necesitamos recibir el Id, y cambiar la query
 	- Metodo Delete
 5- Usamos el token para acceder al uso de los metodos
+6- Obtenemos los headers y agregamos acceso a los metodos mediante los headers
 	
