@@ -4,14 +4,16 @@
 
     class Pacientes extends Conexion{
         private $table = "pacientes";
-        private $pacienteId;
-        private $dni = "";
+        private $tableToken = "usuarios_token";
+        private $token = ""; //365883eda327cbe32ef39fc503d4475a
+        private $pacienteId = "";
+        private $dni = "0";
         private $nombre = "";
         private $apellido = "";
         private $genero = "";
-        private $fechaNacimento = "0000-00-00";
+        private $fechaNacimiento = "0001-01-01";
         private $direccion = "";
-        private $tel = "";
+        private $tel = "0";
         private $email = "";
 
         // getPacientes - Obtener todos los pacientes
@@ -31,54 +33,69 @@
 
         // getPaciente - Obtener 1 paciente
         public function getPaciente($pacienteId){
-            $query = "SELECT * FROM {$this->table} WHERE Paciente_Id = $pacienteId"; // Ver de hacer con consultas preparadas
+            $query = "SELECT * FROM $this->table WHERE Paciente_Id = $pacienteId"; // Ver de hacer con consultas preparadas
             $datos = parent::obtenerDatos($query);
-            return $datos;
-            // return parent::obtenerDatos($query);
+            return $datos; // Ver si funcionan sin el punto y coma
         } // End function getPaciente
 
-        // Recibimos los datos del POST
+        // Recibimos los datos del POST para insertar un paciente
         public function post($json){
             $_respuestas = new Respuestas; // Instanciamos las respuestas
             $datos = json_decode($json, true); // Convertimos en array el string que nos envian por post
-            // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
-            // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
-            if(!isset($datos['dni']) || !isset($datos['nombre']) || !isset($datos['email'])){
-                return $_respuestas->error_400();
+            // Verificamos que se hallan enviado el token
+            if(!isset($datos['token'])){
+                // Si no envian el token devolvemos el error 401
+                return $_respuestas->error_401();
             }else{
-                // Almacenamos los datos necesarios (obligatorios) enviados
-                $this->dni = $datos['dni'];
-                $this->nombre = $datos['nombre'];
-                $this->email = $datos['email'];
-                // Almacenamos los datos no obligatorios si es que fueron enviados
-                if(isset($datos['apellido'])){$this->apellido = $datos['apellido'];}
-                if(isset($datos['genero'])){$this->genero = $datos['genero'];}
-                if(isset($datos['fechanacimiento'])){$this->fechaNacimiento = $datos['fechanacimiento'];}
-                if(isset($datos['direccion'])){$this->direccion = $datos['direccion'];}
-                if(isset($datos['tel'])){$this->tel = $datos['tel'];}
-                
-                // Ejecuto la funcion insertar paciente
-                $resp = $this->insertarPaciente();
-                // Si se inserta el paciente damos la respuesta
-                if($resp){
-                    // Asignamos/igualamos a $respuestaId la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
-                    $respuestaId = $_respuestas->response;
-                    // En el array que tiene almacenado le agregamos el key "pacienteId" con el valor del Id del nuevo usuario registrado
-					$respuestaId['result'] = array(
-                                                "pacienteId" => $resp
-                                                );
-                    return $respuestaId;
+                // Si enviaron el token, lo verificamos
+                $this->token = $datos['token']; 
+                $arrayToken = $this->buscarToken();
+                if($arrayToken){
+                    // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
+                    // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
+                    if(!isset($datos['dni']) || !isset($datos['nombre']) || !isset($datos['email'])){
+                        return $_respuestas->error_400();
+                    }else{
+                        // Almacenamos los datos necesarios (obligatorios) enviados
+                        $this->dni = $datos['dni'];
+                        $this->nombre = $datos['nombre'];
+                        $this->email = $datos['email'];
+                        // Almacenamos los datos no obligatorios si es que fueron enviados
+                        if(isset($datos['apellido'])){$this->apellido = $datos['apellido'];}
+                        if(isset($datos['genero'])){$this->genero = $datos['genero'];}
+                        if(isset($datos['fechanacimiento'])){$this->fechaNacimiento = $datos['fechanacimiento'];}
+                        if(isset($datos['direccion'])){$this->direccion = $datos['direccion'];}
+                        if(isset($datos['tel'])){$this->tel = $datos['tel'];}
+                        
+                        // Ejecuto la funcion insertar paciente
+                        $resp = $this->insertarPaciente();
+                        // Si se inserta el paciente damos la respuesta
+                        if($resp){
+                            // Asignamos/igualamos a $respuestaId la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
+                            $respuestaId = $_respuestas->response;
+                            // En el array que tiene almacenado le agregamos el key "pacienteId" con el valor del Id del nuevo usuario registrado
+                            $respuestaId['result'] = array(
+                                                        "pacienteId" => $resp
+                                                        );
+                            return $respuestaId;
+                        }else{
+                            return $_respuestas->error_500();
+                        }
+                    }
                 }else{
-                    return $_respuestas->error_500();
+                    return $_respuestas->error_401("El token enviado es invalido o ha caducado");
                 }
             }
+
+            
 
         } // End function post
 
         // Creamos la funcion Insertar paciente
         private function insertarPaciente(){
-            //$query = "INSERT INTO {$this->table} (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ('{$this->dni}', '{$this->nombre}', '{$this->apellido}', '{$this->genero}', '{$this->fechaNacimiento}', '{$this->direccion}', '{$this->tel}', '{$this->email}')";
-            $query = "INSERT INTO $this->table (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ('$this->dni', '$this->nombre', '$this->apellido', '$this->genero', '$this->fechaNacimiento', '$this->direccion', '$this->tel', '$this->email')";
+            // $query = "INSERT INTO {$this->table} (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ('{$this->dni}', '{$this->nombre}', '{$this->apellido}', '{$this->genero}', '{$this->fechaNacimiento}', '{$this->direccion}', '{$this->tel}', '{$this->email}')";
+            // $query = "INSERT INTO $this->table (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ('$this->dni', '$this->nombre', '$this->apellido', '$this->genero', '$this->fechaNacimiento', '$this->direccion', '$this->tel', '$this->email')";
+            $query = "INSERT INTO $this->table (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ($this->dni, '$this->nombre', '$this->apellido', '$this->genero', '$this->fechaNacimiento', '$this->direccion', $this->tel, '$this->email')";
             // print_r($query);
             $resp = parent::nonQueryId($query);
             if($resp){
@@ -92,41 +109,54 @@
         
         } // End function insertarPaciente
 
-        // Recibimos los datos del PUT
+        // Recibimos los datos del PUT para editar un paciente
         public function put($json){
             $_respuestas = new Respuestas; // Instanciamos las respuestas
             $datos = json_decode($json, true); // Convertimos en array el string que nos envian por post
-            // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
-            // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
-            if(!isset($datos['pacienteId'])){
-                return $_respuestas->error_400();
+            // Verificamos que se hallan enviado el token
+            if(!isset($datos['token'])){
+                // Si no envian el token devolvemos el error 401
+                return $_respuestas->error_401();
             }else{
-                // Almacenamos los datos necesarios (obligatorios) enviados
-                $this->pacienteId = $datos['pacienteId'];
-                // Almacenamos los datos no obligatorios si es que fueron enviados
-                if(isset($datos['dni'])){$this->dni = $datos['dni'];}
-                if(isset($datos['nombre'])){$this->nombre = $datos['nombre'];}
-                if(isset($datos['apellido'])){$this->apellido = $datos['apellido'];}
-                if(isset($datos['genero'])){$this->genero = $datos['genero'];}
-                if(isset($datos['fechanacimiento'])){$this->fechaNacimiento = $datos['fechanacimiento'];}
-                if(isset($datos['direccion'])){$this->direccion = $datos['direccion'];}
-                if(isset($datos['tel'])){$this->tel = $datos['tel'];}
-                if(isset($datos['email'])){$this->email = $datos['email'];}
-                
-                // Ejecuto la funcion insertar paciente
-                $resp = $this->editarPaciente();
-                // Si se inserta el paciente damos la respuesta
-                if($resp){
-                    // Asignamos/igualamos a $respuestaAffect la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
-                    $respuestaAffect = $_respuestas->response;
-                    // En el array que tiene almacenado le agregamos el key "Filas afectadas" con el valor del Id del nuevo usuario registrado
-					$respuestaAffect['result'] = array(
-                                                "PacienteId" => $this->pacienteId,
-                                                "Filas afectadas" => $resp
-                                                );
-                    return $respuestaAffect;
+                // Si enviaron el token, lo verificamos
+                $this->token = $datos['token']; 
+                $arrayToken = $this->buscarToken();
+                if($arrayToken){
+                    // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
+                    // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
+                    if(!isset($datos['pacienteId'])){
+                        return $_respuestas->error_400();
+                    }else{
+                        // Almacenamos los datos necesarios (obligatorios) enviados
+                        $this->pacienteId = $datos['pacienteId'];
+                        // Almacenamos los datos no obligatorios si es que fueron enviados
+                        if(isset($datos['dni'])){$this->dni = $datos['dni'];}
+                        if(isset($datos['nombre'])){$this->nombre = $datos['nombre'];}
+                        if(isset($datos['apellido'])){$this->apellido = $datos['apellido'];}
+                        if(isset($datos['genero'])){$this->genero = $datos['genero'];}
+                        if(isset($datos['fechanacimiento'])){$this->fechaNacimiento = $datos['fechanacimiento'];}
+                        if(isset($datos['direccion'])){$this->direccion = $datos['direccion'];}
+                        if(isset($datos['tel'])){$this->tel = $datos['tel'];}
+                        if(isset($datos['email'])){$this->email = $datos['email'];}
+                        
+                        // Ejecuto la funcion insertar paciente
+                        $resp = $this->editarPaciente();
+                        // Si se inserta el paciente damos la respuesta
+                        if($resp){
+                            // Asignamos/igualamos a $respuestaAffect la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
+                            $respuestaAffect = $_respuestas->response;
+                            // En el array que tiene almacenado le agregamos el key "Filas afectadas" con el valor del Id del nuevo usuario registrado
+                            $respuestaAffect['result'] = array(
+                                                        "PacienteId" => $this->pacienteId,
+                                                        "Filas afectadas" => $resp
+                                                        );
+                            return $respuestaAffect;
+                        }else{
+                            return $_respuestas->error_500();
+                        }
+                    }
                 }else{
-                    return $_respuestas->error_500();
+                    return $_respuestas->error_401("El token enviado es invalido o ha caducado");
                 }
             }
 
@@ -153,29 +183,43 @@
         public function delete($json){
             $_respuestas = new Respuestas; // Instanciamos las respuestas
             $datos = json_decode($json, true); // Convertimos en array el string que nos envian por post
-            // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
-            // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
-            if(!isset($datos['pacienteId'])){
-                return $_respuestas->error_400();
+            // Verificamos que se hallan enviado el token
+            if (!isset($datos['token'])){
+                // Si no envian el token devolvemos el error 401
+                return $_respuestas->error_401();
             }else{
-                // Almacenamos los datos necesarios (obligatorios) enviados
-                $this->pacienteId = $datos['pacienteId'];
-                // Ejecuto la funcion insertar paciente
-                $resp = $this->eliminarPaciente();
-                // Si se inserta el paciente damos la respuesta
-                if($resp){
-                    // Asignamos/igualamos a $respuestaAffect la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
-                    $respuestaAffect = $_respuestas->response;
-                    // En el array que tiene almacenado le agregamos el key "Filas afectadas" con el valor del Id del nuevo usuario registrado
-					$respuestaAffect['result'] = array(
-                                                "PacienteId" => $this->pacienteId,
-                                                "Filas afectadas" => $resp
-                                                );
-                    return $respuestaAffect;
+                // Si enviaron el token, lo verificamos
+                $this->token = $datos['token']; 
+                $arrayToken = $this->buscarToken();
+                if($arrayToken){
+                    // Verificamos que se hallan enviado los datos necesarios (obligatorios) que solicitamos
+                    // Los nombres de campos clave de este array no es necesesario que coindidan como estan escritos en la BBDD todavia.
+                    if(!isset($datos['pacienteId'])){
+                        return $_respuestas->error_400();
+                    }else{
+                        // Almacenamos los datos necesarios (obligatorios) enviados
+                        $this->pacienteId = $datos['pacienteId'];
+                        // Ejecuto la funcion insertar paciente
+                        $resp = $this->eliminarPaciente();
+                        // Si se inserta el paciente damos la respuesta
+                        if($resp){
+                            // Asignamos/igualamos a $respuestaAffect la propiedad "response" de la clase $_respuestas para agregar el valor del id insertado
+                            $respuestaAffect = $_respuestas->response;
+                            // En el array que tiene almacenado le agregamos el key "Filas afectadas" con el valor del Id del nuevo usuario registrado
+                            $respuestaAffect['result'] = array(
+                                                        "PacienteId" => $this->pacienteId,
+                                                        "Filas afectadas" => $resp
+                                                        );
+                            return $respuestaAffect;
+                        }else{
+                            return $_respuestas->error_500();
+                        }
+                    }
                 }else{
-                    return $_respuestas->error_500();
+                    return $_respuestas->error_401("El token enviado es invalido o ha caducado");
                 }
             }
+            
 
         } // End function put
 
@@ -192,5 +236,30 @@
 			}
 
         } // End function eliminarPaciente
-    
+
+        // Creamos la funcion busarToken para buscar los datos del usuario del token enviado
+        private function buscarToken(){
+            $query = "SELECT TokenId, UsuarioId, Estado FROM $this->tableToken WHERE Token = '$this->token' AND Estado = '1'";
+            $resp = parent::obtenerDatos($query);
+            if($resp){
+                return $resp;
+            }else{
+                return 0;
+            }
+        } // End function buscarToken 
+
+        // Creamos la funcion actualizarToken para saber si sigue activo el token
+        // Actualizamos la fecha del token para el usuario que esta usando la api, que sigue activo
+        private function actualizarToken($tokenId){
+            $date = date("Y-m-d H:i");
+            $query = "UPDATE usuarios_token SET Fecha = '$date' WHERE TokenId = '$tokenId'";
+			$resp = parent::nonQuery($query);
+			if($resp >= 1){
+				// Si se hace la actualizacion de la fecha del token devolvemos 1, que seria la fila afectada
+				return $resp;
+			}else{
+				return 0;
+			}
+		} // End function actualizarToken    
+
     } // End class Pacientes

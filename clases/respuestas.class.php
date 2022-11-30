@@ -25,6 +25,16 @@
             return $this->response;
         } // End function error_400
 
+        // Function error_401
+        public function error_401(string $valor = "No autorizado"){
+			$this->response['status'] = "error";
+			$this->response['result'] = array(
+										"error_id" => "401",
+										"error_msg" => $valor
+										);
+			return $this->response;
+		} // End function error_401
+
         // Function error_405
         public function error_405(){
             $this->response['status'] = "error";

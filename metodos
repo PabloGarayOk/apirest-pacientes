@@ -1,0 +1,56 @@
+POST
+{
+    "dni": "35987456",
+    "nombre": "Leo",
+    "apellido": "Messi",
+    "genero": "Mas",
+    "fechanacimiento": "1960-02-01",
+    "direccion": "27 y calazans",
+    "tel": "3512242233",
+    "email": "leomessi@gmail.com",
+    "token": "c2e80ba40cdd0b01c6463b285cbd0dcd"
+}
+{
+    "dni": "35987456",
+    "nombre": "Leo",
+    "email": "leomessi@gmail.com",
+    "token": "c2e80ba40cdd0b01c6463b285cbd0dcd"
+}
+
+{
+    "dni": "18274586",
+    "nombre": "Adolfo",
+    "apellido": "Procikievic",
+    "genero": "Mas",
+    "fechanacimiento": "1965-08-14",
+    "direccion": "Alta Gracia 41",
+    "tel": "3513964875",
+    "email": "dradolfopro@gmail.com",
+    "token": "c2e80ba40cdd0b01c6463b285cbd0dcd"
+}
+
+PUT
+{
+    "pacienteId": "18",
+    "dni": "35987456",
+    "nombre": "Leo",
+    "apellido": "Messi",
+    "genero": "Mas",
+    "fechanacimiento": "1960-10-01",
+    "direccion": "27 y calazans",
+    "tel": "3512242233",
+    "email": "leomessi@gmail.com",
+    "token": "c2e80ba40cdd0b01c6463b285cbd0dcd"
+}
+
+{
+    "pacienteId": "14",
+    "token": "c2e80ba40cdd0b01c6463b285cbd0dcd"
+}
+
+DELETE
+{
+    "pacienteId": "14",
+    "token": "c2e80ba40cdd0b01c6463b285cbd0dcd"
+}
+

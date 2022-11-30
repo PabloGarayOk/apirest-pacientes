@@ -14,4 +14,6 @@ Api-rest
 	- Metodo Put (Update)
 		*Obtenemos los datos igual que con el post, es lo mismo para todos los metodos que reciben datos a través del body
 		*Es igual que el metodo post pero solo necesitamos recibir el Id, y cambiar la query
+	- Metodo Delete
+5- Usamos el token para acceder al uso de los metodos
 	
