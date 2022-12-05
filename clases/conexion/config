@@ -2,7 +2,7 @@
     "conexion":{
         "server"    : "localhost",
         "user"      : "root",
-        "password"  : "satiana",
+        "password"  : "",
         "database"  : "apirest",
         "port"      : "3306",
         "charset"   : "utf8"

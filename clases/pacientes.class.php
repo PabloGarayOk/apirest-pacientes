@@ -1,11 +1,11 @@
 <?php
-    require_once 'conexion/Conexion.php';
+    require_once 'conexion/conexion.php';
     require_once 'respuestas.class.php';
 
     class Pacientes extends Conexion{
         private $table = "pacientes";
         private $tableToken = "usuarios_token";
-        private $token = ""; //365883eda327cbe32ef39fc503d4475a
+        private $token = "";
         private $pacienteId = "";
         private $dni = "0";
         private $nombre = "";
@@ -63,7 +63,7 @@
                         // Almacenamos los datos no obligatorios si es que fueron enviados
                         if(isset($datos['apellido'])){$this->apellido = $datos['apellido'];}
                         if(isset($datos['genero'])){$this->genero = $datos['genero'];}
-                        if(isset($datos['fechanacimiento'])){$this->fechaNacimiento = $datos['fechanacimiento'];}
+                        if(isset($datos['fechaNacimiento'])){$this->fechaNacimiento = $datos['fechaNacimiento'];}
                         if(isset($datos['direccion'])){$this->direccion = $datos['direccion'];}
                         if(isset($datos['tel'])){$this->tel = $datos['tel'];}
                         
@@ -134,7 +134,7 @@
                         if(isset($datos['nombre'])){$this->nombre = $datos['nombre'];}
                         if(isset($datos['apellido'])){$this->apellido = $datos['apellido'];}
                         if(isset($datos['genero'])){$this->genero = $datos['genero'];}
-                        if(isset($datos['fechanacimiento'])){$this->fechaNacimiento = $datos['fechanacimiento'];}
+                        if(isset($datos['fechaNacimiento'])){$this->fechaNacimiento = $datos['fechaNacimiento'];}
                         if(isset($datos['direccion'])){$this->direccion = $datos['direccion'];}
                         if(isset($datos['tel'])){$this->tel = $datos['tel'];}
                         if(isset($datos['email'])){$this->email = $datos['email'];}
@@ -246,20 +246,6 @@
             }else{
                 return 0;
             }
-        } // End function buscarToken 
-
-        // Creamos la funcion actualizarToken para saber si sigue activo el token
-        // Actualizamos la fecha del token para el usuario que esta usando la api, que sigue activo
-        private function actualizarToken($tokenId){
-            $date = date("Y-m-d H:i");
-            $query = "UPDATE usuarios_token SET Fecha = '$date' WHERE TokenId = '$tokenId'";
-			$resp = parent::nonQuery($query);
-			if($resp >= 1){
-				// Si se hace la actualizacion de la fecha del token devolvemos 1, que seria la fila afectada
-				return $resp;
-			}else{
-				return 0;
-			}
-		} // End function actualizarToken
+        } // End function buscarToken
 
     } // End class Pacientes

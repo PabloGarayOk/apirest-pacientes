@@ -1,5 +1,5 @@
 <?php
-    require_once 'conexion/Conexion.php';
+    require_once 'conexion/conexion.php';
     require_once 'respuestas.class.php';
 
     class Auth extends Conexion{
@@ -7,17 +7,6 @@
             $_respuestas = new Respuestas;
             $datos = json_decode($json,true); // Convertimos el json a un array
             if(!isset($datos['user']) || !isset($datos['pass'])){ // Verificamos si nos envian el usuario y el password
-                
-                # Nota para el lector:
-                /*
-                Al enviar los datos en el body de nuestro Api Tester preferido notese de completar con comillas dobles "" para que funcione correctamente.
-                    Ejemplo:
-                        {
-                            "user": "agostinapro@gmail.com",
-                            "pass": "123456"
-                        }   
-                */
-
                 // Si no estan los campos
                 return $_respuestas->error_400();
             }else{
