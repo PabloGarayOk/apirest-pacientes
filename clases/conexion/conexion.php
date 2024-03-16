@@ -24,7 +24,8 @@
             if($this->conexion_db->connect_errno){
                 echo "Error en la conexion";
                 die();
-            }            
+            }
+            return $this->conexion_db;            
         } // End __construct
 
         // Obtener datos del archivo conexion
@@ -47,7 +48,7 @@
         // Obtener Datos mysqli
         public function obtenerDatos($strsql){
             $results = $this->conexion_db->query($strsql);
-            $resultArray = [];
+            // $resultArray = [];
             foreach($results as $key){
                 $resultArray[] = $key;
             }

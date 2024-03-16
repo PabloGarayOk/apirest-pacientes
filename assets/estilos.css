@@ -72,3 +72,25 @@ code{
     margin: 14px 0 14px 0;
     padding: 15px 12px 15px 12px;
 }
+
+@media (max-width: 550px){
+    h1{
+        /*color: white;*/
+        /*background-color: #444;*/
+        font-size: 22px;
+        /*font-weight: normal;*/
+        /*margin: 0 0 14px 0;*/
+        padding: 14px 15px 10px 15px;
+    }
+
+    code{
+        /*font-family: Consolas, Monaco, Courier New, Courier, monospace;*/
+        font-size: 12.5px;
+        /*background-color: #eae9e9;
+        border: 1px solid #D0D0D0;
+        color: #0f2a65;
+        display: block;*/
+        margin: 12px 0 12px 0;
+        padding: 13px 12px 13px 12px;
+    }
+}

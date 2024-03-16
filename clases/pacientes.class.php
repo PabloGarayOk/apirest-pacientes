@@ -31,6 +31,14 @@
             return $datos;
         } // End function getPacientes
 
+        // getTotalPacientes - Obtener la cantidad total de pacientes
+        public function getTotalPacientes(){
+            $query = "SELECT count(*) as total_registros FROM {$this->table}";
+            $result = $this->conexion_db->query($query);
+            $row = $result->fetch_assoc();
+            return $row['total_registros'];
+        } // End function getTotalPacientes
+
         // getPaciente - Obtener 1 paciente
         public function getPaciente($pacienteId){
             $query = "SELECT * FROM $this->table WHERE Paciente_Id = $pacienteId"; // Ver de hacer con consultas preparadas
@@ -85,25 +93,21 @@
                 }else{
                     return $_respuestas->error_401("El token enviado es invalido o ha caducado");
                 }
-            }
-
-            
+            }            
 
         } // End function post
 
         // Creamos la funcion Insertar paciente
         private function insertarPaciente(){
-            // $query = "INSERT INTO {$this->table} (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ('{$this->dni}', '{$this->nombre}', '{$this->apellido}', '{$this->genero}', '{$this->fechaNacimiento}', '{$this->direccion}', '{$this->tel}', '{$this->email}')";
-            // $query = "INSERT INTO $this->table (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ('$this->dni', '$this->nombre', '$this->apellido', '$this->genero', '$this->fechaNacimiento', '$this->direccion', '$this->tel', '$this->email')";
             $query = "INSERT INTO $this->table (DNI, Nombre, Apellido, Genero, FechaNacimiento, Direccion, Tel, Email) VALUES ($this->dni, '$this->nombre', '$this->apellido', '$this->genero', '$this->fechaNacimiento', '$this->direccion', $this->tel, '$this->email')";
             // print_r($query);
             $resp = parent::nonQueryId($query);
             if($resp){
-				// Si se hace el insert devolvemos el id del paciente insertado
-				return $resp;
-			}else{
-				return 0;
-			}
+                // Si se hace el insert devolvemos el id del paciente insertado
+                return $resp;
+            }else{
+                return 0;
+            }
             
             // VALUES ('" . $this->dni . "', '" . $this->nombre . "', '" . $this->apellido . "', '" . $this->genero . "', '" . $this->fechaNacimiento . "', '" . $this->direccion . "', '" . $this->tel . "', '" . $this->email . "')";
         
@@ -164,18 +168,15 @@
 
         // Creamos la funcion Editar paciente
         private function editarPaciente(){
-            //$query = "UPDATE pacientes SET DNI = 57152699, Nombre = 'Cinco', Apellido = 'Garay Pro', Genero = 'Fem', FechaNacimiento = '2018-08-09', Direccion = '27 de Abril 936', Tel = '3512242233', Email = 'cinco@gmail.com' WHERE Paciente_Id = '$this->pacienteId'";
-            // $query = "UPDATE " . $this->table . " SET DNI = " . $this->dni . ", Nombre = '" . $this->nombre . "', Apellido = '" . $this->apellido . "', Genero = '" . $this->genero . "', FechaNacimiento = '" . $this->fechaNacimiento . "', Direccion = '" . $this->direccion . "', Tel = '" . $this->tel . "', Email = '" . $this->email . "' WHERE Paciente_Id = '" . $this->pacienteId . "'";
-            // $query = "UPDATE {$this->table} SET DNI = {$this->dni}, Nombre = '{$this->nombre}', Apellido = '{$this->apellido}', Genero = '{$this->genero}', FechaNacimiento = {$this->fechaNacimiento}, Direccion = '{$this->direccion}', Tel = {$this->tel}, Email = '{$this->email}' WHERE Paciente_Id = {$this->pacienteId}";
             $query = "UPDATE $this->table SET DNI = '$this->dni', Nombre = '$this->nombre', Apellido = '$this->apellido', Genero = '$this->genero', FechaNacimiento = '$this->fechaNacimiento', Direccion = '$this->direccion', Tel = '$this->tel', Email = '$this->email' WHERE Paciente_Id = '$this->pacienteId'";
             // print_r($query);
             $resp = parent::nonQuery($query);
             if($resp >=1 ){
-				// Si se hace el insert devolvemos el id del paciente editado
-				return $resp;
-			}else{
-				return 0;
-			}
+                // Si se hace el insert devolvemos el id del paciente editado
+                return $resp;
+            }else{
+                return 0;
+            }
 
         } // End function editarPaciente
 

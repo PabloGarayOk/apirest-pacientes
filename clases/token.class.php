@@ -15,4 +15,15 @@
             }
         } // End actualizarToken
 
+        // Eliminar tokens
+        public function eliminarToken(){
+            $query = "DELETE FROM $this->tabla WHERE Estado = '0'";
+            $verificar = parent::nonQuery($query);
+            if($verificar > 0){
+                return 1;
+            }else{
+                return 0;
+            }
+        } // End eliminarToken
+
     } // End class token

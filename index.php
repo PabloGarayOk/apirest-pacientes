@@ -90,12 +90,22 @@
                 }
             </code>
             <code>
-                <h4>DELETE  /pacientes - headers</h4>
+                <h4>DELETE  /pacientes (body)</h4>
                 {   
                     <br>    
                     &nbsp;&nbsp;"pacienteId": "", -> REQUERIDO
                     <br>       
                     &nbsp;&nbsp;"token": "" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> REQUERIDO
+                    <br>
+                }
+            </code>
+            <code>
+                <h4>DELETE  /pacientes (headers)</h4>
+                {   
+                    <br>    
+                    &nbsp;&nbsp;"Paciente-Id": "", -> REQUERIDO
+                    <br>       
+                    &nbsp;&nbsp;"Token": "" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> REQUERIDO
                     <br>
                 }
             </code>
