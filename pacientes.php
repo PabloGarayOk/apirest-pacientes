@@ -78,10 +78,10 @@
         $headers = getallheaders();
         // print_r($headers);
         // Tomamos los datos del header y los almacenamos en el array $datosHeaders
-        if(isset($headers['Paciente-Id']) && $headers['token']){
+        if(isset($headers['Paciente-Id']) && $headers['Token']){
             $datosHeaders = [
                             "pacienteId" => $headers['Paciente-Id'],
-                            "token" => $headers['token']
+                            "token" => $headers['Token']
             ];
             $postDatos = json_encode($datosHeaders); // Convertimos a json el array para poder pasarselo al metodo delete
         }else{
@@ -111,3 +111,4 @@
         // Enviamos la respuesta
         echo json_encode($datosArray);
     }
+?>
