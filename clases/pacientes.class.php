@@ -17,15 +17,14 @@
         private $email = "";
 
         // getPacientes - Obtener todos los pacientes
-        public function getPacientes($pagina){
+        public function getPacientes($pagina, $cantRegistros = 100){
             $inicio = 0;
-            $cantidad = 3; // Registros por pagina
+            $cantidad = $cantRegistros; // Registros por pagina
             if($pagina > 1){
                 $inicio = ($cantidad * ($pagina - 1)); // Seteamos desde que registro se muestra segun la pagina solicitada
                 // $cantidad = ($cantidad * $pagina); // No es necesario, la cant. de registros a mostrar siempre es la misma
             }
             $query = "SELECT Paciente_Id, DNI, Nombre, Apellido, Tel, Email FROM {$this->table} LIMIT $inicio, $cantidad";
-            //$query = "SELECT Paciente_Id, DNI, Nombre, Apellido, Tel, Email FROM pacientes LIMIT $inicio, $cantidad";
             // print_r($query);
             $datos = parent::obtenerDatos($query); // Usamos la funcion obtenerDatos de los usuarios y los almacenamos como array en $datos
             return $datos;
@@ -250,3 +249,4 @@
         } // End function buscarToken
 
     } // End class Pacientes
+?>
