@@ -3,9 +3,10 @@
 This project is a RESTful API built with **PHP and Object-Oriented Programming (OOP)**.  
 It was created as a learning project to understand how APIs are designed, consumed, and secured using token-based authentication.
 
-The API is currently **online and running**, and it is also consumed by a **Vue.js dashboard** available on my personal website.
+The API is currently **online and running**, and it is also consumed by a **Vue.js dashboard** implemented in a separate repository: **AplicacionVueJs**.
 
-Live API: https://apirest.pablogaray.com.ar
+**Live API endpoint:**  
+https://apirest.pablogaray.com.ar
 
 ---
 
@@ -252,35 +253,4 @@ A future improvement would be migrating to `password_hash()` and `password_verif
 
 Pablo Garay  
 [Personal website](https://pablogaray.com.ar)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
