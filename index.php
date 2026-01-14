@@ -49,9 +49,9 @@
                     <br> 
                     &nbsp;&nbsp;"apellido": "",
                     <br>  
-                    &nbsp;&nbsp;"genero": "",
+                    &nbsp;&nbsp;"genero": "", &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> (Fem/Mas)
                     <br>        
-                    &nbsp;&nbsp;"fechaNacimiento": "",
+                    &nbsp;&nbsp;"fechaNacimiento": "", -> (AAAA-MM-DD)
                     <br>
                     &nbsp;&nbsp;"direccion": "",
                     <br>
@@ -75,9 +75,9 @@
                     <br> 
                     &nbsp;&nbsp;"apellido": "",
                     <br>  
-                    &nbsp;&nbsp;"genero": "",
+                    &nbsp;&nbsp;"genero": "", &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> (Fem/Mas)
                     <br>        
-                    &nbsp;&nbsp;"fechaNacimiento": "",
+                    &nbsp;&nbsp;"fechaNacimiento": "", -> (AAAA-MM-DD)
                     <br>
                     &nbsp;&nbsp;"direccion": "",
                     <br>
