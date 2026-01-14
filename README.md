@@ -9,6 +9,14 @@ Live API: https://apirest.pablogaray.com.ar
 
 ---
 
+## Proyect overview
+
+**Role:** Backend Developer (PHP)  
+**Type:** REST API  
+**Status:** Completed
+
+---
+
 ##  Project Purpose
 
 This project was developed to learn:
@@ -219,7 +227,15 @@ A future improvement would be migrating to `password_hash()` and `password_verif
 - pacientes.php
 - .htaccess 
 
---- 
+---
+
+## Lessons Learned
+
+- Designing APIs with consistent error handling improves frontend integration.
+- Token-based authentication requires careful expiration and retry logic.
+- Proper documentation significantly reduces onboarding time.
+
+---
 
 ## Possible Improvements
 
